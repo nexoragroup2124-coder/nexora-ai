@@ -139,7 +139,7 @@ function loadState() {
 
 function loadSettings() {
   const defaults = {
-    provider: "offline",
+    provider: "nexora-cloud",
     endpoint: "",
     apiKey: "",
     apiModel: "",
@@ -723,7 +723,7 @@ els.saveSettingsBtn.addEventListener("click", () => {
 
 els.clearSettingsBtn.addEventListener("click", () => {
   settings = {
-    provider: "offline",
+    provider: "nexora-cloud",
     endpoint: "",
     apiKey: "",
     apiModel: "",

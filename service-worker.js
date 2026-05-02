@@ -1,4 +1,4 @@
-const cacheName = "nexora-v2";
+const cacheName = "nexora-v4";
 const appShell = [
   "./",
   "./index.html",
