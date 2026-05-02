@@ -87,6 +87,32 @@ Simple pricing structure:
 
 Before charging users, add login, payments, rate limits, API budget limits, privacy policy, and terms.
 
+## Connect Real AI On Netlify
+
+Nexora now includes a Netlify backend function at:
+
+```text
+/api/chat
+```
+
+Set these environment variables in Netlify:
+
+```text
+AI_API_KEY=your_provider_api_key
+AI_API_URL=https://api.openai.com/v1/chat/completions
+AI_MODEL=gpt-4o-mini
+```
+
+You can also use another OpenAI-compatible provider by changing `AI_API_URL` and `AI_MODEL`.
+
+In the Nexora app settings, choose:
+
+```text
+Nexora Cloud backend
+```
+
+Then the public website will call your backend instead of exposing your API key in the browser.
+
 ## Make It Installable
 
 Nexora includes:

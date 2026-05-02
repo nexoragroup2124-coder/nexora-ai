@@ -272,7 +272,7 @@ function renderStats() {
 }
 
 function updateStatus() {
-  const provider = settings.provider === "offline" ? "Offline engine ready" : `${settings.provider.toUpperCase()} provider configured`;
+  const provider = settings.provider === "offline" ? "Demo AI ready - connect backend for real AI" : `${settings.provider.toUpperCase()} provider configured`;
   els.statusPill.textContent = provider;
 }
 
@@ -350,6 +350,10 @@ async function generateReply(prompt) {
 }
 
 async function providerReply(prompt) {
+  if (settings.provider === "nexora-cloud") {
+    return cloudBackendReply(prompt);
+  }
+
   if (!settings.endpoint || !settings.apiKey || !settings.apiModel) {
     throw new Error("Add an endpoint, API key, and model in Settings.");
   }
@@ -386,11 +390,42 @@ async function providerReply(prompt) {
   return data.choices?.[0]?.message?.content || data.output_text || "The provider returned an empty response.";
 }
 
+async function cloudBackendReply(prompt) {
+  const thread = activeThread();
+  const messages = thread.messages
+    .filter(message => message.content !== "Thinking...")
+    .slice(-12)
+    .map(message => ({ role: message.role, content: message.content }));
+
+  const response = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      messages,
+      mode: activeMode,
+      modelStyle: settings.modelStyle,
+      language: settings.language
+    })
+  });
+
+  const data = await response.json().catch(() => ({}));
+
+  if (!response.ok) {
+    throw new Error(data.error || `Nexora backend returned ${response.status}`);
+  }
+
+  return data.answer || "Nexora backend returned an empty answer.";
+}
+
 async function offlineNexora(prompt) {
   await wait(620 + Math.min(prompt.length * 8, 900));
-  const lower = prompt.toLowerCase();
   const context = contextChips.length ? `\n\nContext I will keep in mind: ${contextChips.join(", ")}.` : "";
   const style = settings.modelStyle.replace("nexora-", "");
+  const direct = directAnswer(prompt, style);
+
+  if (direct) {
+    return direct + context;
+  }
 
   if (activeMode === "code" || /\b(code|react|javascript|python|css|html|bug|component|api)\b/i.test(prompt)) {
     return codeAnswer(prompt, style) + context;
@@ -411,6 +446,58 @@ async function offlineNexora(prompt) {
   return reasonAnswer(prompt, style) + context;
 }
 
+function directAnswer(prompt, style) {
+  const clean = prompt.trim();
+  const lower = clean.toLowerCase();
+
+  if (/^(hi|hello|hey|namaste|hola|yo|hii+)\b/.test(lower)) {
+    return `Hey, I am Nexora AI. Ask me something specific and I will help directly.\n\nTry one of these:\n- "Make a study plan for my exam"\n- "Explain photosynthesis simply"\n- "Write an Instagram caption"\n- "Help me choose a laptop"\n- "Create a business idea for students"`;
+  }
+
+  if (/\b(who are you|what are you|your name)\b/.test(lower)) {
+    return `I am Nexora AI, your assistant inside the Nexora app. I can help with writing, study, planning, coding, ideas, summaries, and decisions.\n\nRight now I am using Nexora's local demo brain. For real advanced AI like a production assistant, connect Nexora to a backend AI provider.`;
+  }
+
+  if (/\b(joke|funny|make me laugh)\b/.test(lower)) {
+    return `Here is one:\n\nWhy did the developer open a bakery?\nBecause they wanted better cookies.\n\nOkay, small smile only. Give me a topic and I can make the next one funnier.`;
+  }
+
+  if (/\b(meaning of|define|what is|explain)\b/.test(lower) && clean.length < 120) {
+    const topic = clean.replace(/^(what is|explain|define|meaning of)\s+/i, "").replace(/[?!.]+$/, "");
+    return `Simple explanation of ${topic}:\n\n${topic} means a thing, idea, or process you are asking about. The easiest way to understand it is to break it into:\n\n1. What it is.\n2. Why it matters.\n3. Where people use it.\n4. One simple example.\n\nAsk me "explain ${topic} like I am 10" and I will make it even simpler.`;
+  }
+
+  if (/^\s*[\d\s+\-*/().%]+\s*$/.test(clean) && /\d/.test(clean)) {
+    try {
+      const safeExpression = clean.replace(/%/g, "/100");
+      const result = Function(`"use strict"; return (${safeExpression})`)();
+      if (Number.isFinite(result)) {
+        return `Answer: ${result}\n\nI calculated the expression you typed.`;
+      }
+    } catch {
+      return `I tried to calculate that, but the expression is not clear. Try something like:\n\n12 + 8 * 3`;
+    }
+  }
+
+  if (/\b(study|exam|homework|learn|school|college|marks)\b/.test(lower)) {
+    return `Here is a simple study plan for this:\n\nTopic: ${firstSentence(prompt)}\n\n1. Spend 20 minutes understanding the basics.\n2. Write short notes in your own words.\n3. Practice 5 questions.\n4. Check mistakes immediately.\n5. Revise again tomorrow for 10 minutes.\n\nBest method: do not only read. Test yourself, because recall is what improves marks.`;
+  }
+
+  if (/\b(business|startup|idea|money|earn|income|sell)\b/.test(lower)) {
+    return moneyAnswer(style);
+  }
+
+  if (/\b(love|friend|family|sad|angry|stress|confused|motivation)\b/.test(lower)) {
+    return `I hear you. For this kind of situation, do this calmly:\n\n1. Name the exact problem in one sentence.\n2. Do not react immediately if emotions are high.\n3. Talk to the person with one clear sentence: "I feel ___ because ___."\n4. Ask what outcome you both want.\n5. If it is serious or unsafe, speak to a trusted person nearby.\n\nIf you tell me what happened, I can help you write the exact message to send.`;
+  }
+
+  if (/\b(doctor|medicine|pain|symptom|legal|lawyer|invest|stock|crypto|loan)\b/.test(lower)) {
+    return `I can help you think through this, but this may need expert advice.\n\nFor safety:\n- Medical problems: speak to a doctor or local emergency service if urgent.\n- Legal problems: speak to a qualified lawyer.\n- Money/investing: avoid rushing and check risk carefully.\n\nWhat I can do now: help you list the facts, questions to ask an expert, and safer next steps.`;
+  }
+
+  return "";
+}
+
 function reasonAnswer(prompt, style) {
   if (/\b(money|earn|pricing|subscription|business|income|revenue)\b/i.test(prompt)) {
     return moneyAnswer(style);
@@ -420,7 +507,9 @@ function reasonAnswer(prompt, style) {
     return gatewayAnswer(style);
   }
 
-  return `Here is the strongest way to think about it.\n\n1. Clarify the goal: ${firstSentence(prompt)}\n2. Separate what is known from what must be tested.\n3. Pick the smallest useful next move, then improve from feedback.\n\nMy recommendation: start with a concrete version of the outcome, define success in one sentence, and then work backward into 3 to 5 actions. In ${style} mode, I would prioritize correctness, speed, and a clean final result over adding more moving parts.\n\nA practical next step:\n- Write the desired result.\n- List constraints like time, budget, tools, and audience.\n- Choose one action you can finish today.\n\nIf you send me the raw details, I can turn this into a plan, checklist, comparison table, or production-ready draft.`;
+  const ask = firstSentence(prompt);
+  const actions = buildActionList(prompt);
+  return `I understand the request as: ${ask}\n\nHere is a useful answer:\n\n${actions}\n\nMy recommendation in ${style} mode: choose the smallest step that gives a visible result, do it first, then improve. If you want, ask a follow-up like "make it simpler", "make it detailed", or "turn this into a checklist".`;
 }
 
 function gatewayAnswer(style) {
@@ -432,19 +521,37 @@ function moneyAnswer(style) {
 }
 
 function researchAnswer(prompt, style) {
-  return `Research brief for: ${firstSentence(prompt)}\n\nExecutive view:\n- Main question: what choice gives the best result with the lowest avoidable risk?\n- Best approach: compare options across outcome, cost, reliability, effort, and long-term flexibility.\n- Missing data: exact budget, timeline, must-have features, and dealbreakers.\n\nComparison framework:\n| Factor | What to check | Why it matters |\n| --- | --- | --- |\n| Capability | Does it solve the core job? | Prevents shiny-tool decisions |\n| Cost | Initial and recurring cost | Protects the budget |\n| Trust | Sources, reviews, constraints | Reduces surprise failures |\n| Fit | Workflow, team, skill level | Determines daily usefulness |\n\nOffline note: I can structure research and evaluate information already provided here. For live web citations, connect a compatible provider in Settings or paste source text and I will synthesize it.`;
+  return `Research mode for: ${firstSentence(prompt)}\n\nI would compare it like this:\n\n| Area | What to check |\n| --- | --- |\n| Main answer | What is most likely true or useful? |\n| Evidence | What source or proof supports it? |\n| Cost | Time, money, effort, and risk |\n| Alternatives | What are the other choices? |\n| Final decision | What should you do next? |\n\nBest next step: collect 3 reliable sources, remove weak claims, then make a short conclusion.\n\nNote: this local version cannot browse live websites. For real Perplexity-style live research, Nexora needs the backend AI/search connection.`;
 }
 
 function codeAnswer(prompt, style) {
-  return `I would implement this with a small, testable structure first.\n\nRecommended build shape:\n- Keep UI state separate from business logic.\n- Create clear functions for input, validation, rendering, and persistence.\n- Add graceful loading and error states before styling polish.\n- Store user-facing strings in one place if the app may grow.\n\nExample pattern:\n\`\`\`js\nconst state = { items: [], isLoading: false };\n\nfunction updateState(next) {\n  Object.assign(state, next);\n  render();\n}\n\nasync function runTask(input) {\n  updateState({ isLoading: true });\n  try {\n    const result = await doWork(input);\n    updateState({ items: [...state.items, result] });\n  } finally {\n    updateState({ isLoading: false });\n  }\n}\n\`\`\`\n\nFor ${style} mode, I would also add keyboard shortcuts, accessible labels, local persistence, and one verification path so the feature is actually ready to use instead of just visually complete.`;
+  return `Code help for: ${firstSentence(prompt)}\n\nUse this structure:\n\n\`\`\`js\nconst appState = {\n  input: "",\n  result: null,\n  loading: false,\n  error: ""\n};\n\nfunction setState(nextState) {\n  Object.assign(appState, nextState);\n  render();\n}\n\nasync function handleAction() {\n  setState({ loading: true, error: "" });\n  try {\n    const result = await runLogic(appState.input);\n    setState({ result });\n  } catch (error) {\n    setState({ error: error.message });\n  } finally {\n    setState({ loading: false });\n  }\n}\n\`\`\`\n\nChecklist:\n- Make the main feature work first.\n- Add loading and error states.\n- Save important data.\n- Test on mobile.\n- Keep the UI simple enough that users understand it instantly.`;
 }
 
 function creativeAnswer(prompt, style) {
-  return `Here is a polished creative direction.\n\nCore concept:\n${firstSentence(prompt)} should feel sharp, premium, and useful from the first interaction.\n\nThree directions:\n1. Confident and minimal: concise copy, precise visuals, clear action.\n2. Futuristic and technical: richer controls, status feedback, power-user affordances.\n3. Warm and helpful: conversational language, guided prompts, approachable defaults.\n\nMy pick: combine direction 1 and 2. Make it feel advanced through capability and responsiveness, not clutter.\n\nDraft line:\n\"Nexora turns scattered questions into clear answers, plans, and finished work.\"`;
+  return `Creative draft for: ${firstSentence(prompt)}\n\nOption 1: Premium and direct\n"Built for people who want faster answers, clearer ideas, and better work."\n\nOption 2: Friendly and simple\n"Ask. Understand. Create. Nexora helps you move from question to result."\n\nOption 3: Futuristic\n"Your intelligent workspace for ideas, research, code, and decisions."\n\nMy pick: use simple words with a premium visual style. People trust products that are clear more than products that sound complicated.`;
 }
 
 function briefAnswer(prompt, style) {
-  return `Brief summary:\n\n- Goal: ${firstSentence(prompt)}\n- Best move: reduce the request to the outcome, constraints, and next action.\n- Risk: adding too many features before the main workflow feels excellent.\n- Recommendation: build the smallest complete version, then layer advanced tools around it.\n\nNext action: send me the source material or the exact target, and I will produce the final brief in ${style} mode.`;
+  return `Short answer:\n\n${firstSentence(prompt)}\n\nBest next move: decide the exact result you want, then take one small action toward it today.\n\nSimple checklist:\n- What is the goal?\n- What is blocking it?\n- What can be done in 10 minutes?\n- What needs help, tools, or money?\n\nThat gives you clarity fast.`;
+}
+
+function buildActionList(prompt) {
+  const lower = prompt.toLowerCase();
+
+  if (/\b(plan|roadmap|steps|how to)\b/.test(lower)) {
+    return `1. Define the final result.\n2. Break it into 3 small stages.\n3. Finish the easiest visible part first.\n4. Test it with one real person.\n5. Improve based on what confused them.`;
+  }
+
+  if (/\b(compare|choose|better|best)\b/.test(lower)) {
+    return `1. List the options.\n2. Compare price, quality, effort, and risk.\n3. Remove any option that fails your must-have requirement.\n4. Pick the option that is good enough and easiest to maintain.\n5. Review after a short test.`;
+  }
+
+  if (/\b(write|message|email|caption|post)\b/.test(lower)) {
+    return `1. Start with the main point.\n2. Remove extra words.\n3. Make the tone respectful and confident.\n4. End with a clear action.\n5. Read it once before sending.`;
+  }
+
+  return `1. Identify the main problem.\n2. Decide what a good result looks like.\n3. List what you already have.\n4. Find the missing piece.\n5. Take the next smallest useful step.`;
 }
 
 function firstSentence(text) {
@@ -630,6 +737,13 @@ els.clearSettingsBtn.addEventListener("click", () => {
 
 els.providerSelect.addEventListener("change", () => {
   const value = els.providerSelect.value;
+  if (value === "nexora-cloud") {
+    els.endpointInput.value = "";
+    els.apiKeyInput.value = "";
+    els.apiModelInput.value = "";
+    els.endpointInput.placeholder = "Uses /api/chat on your Netlify backend";
+    return;
+  }
   if (value === "openai" && !els.endpointInput.value) els.endpointInput.value = "https://api.openai.com/v1/chat/completions";
   if (value === "xai" && !els.endpointInput.value) els.endpointInput.value = "https://api.x.ai/v1/chat/completions";
   if (value === "perplexity" && !els.endpointInput.value) els.endpointInput.value = "https://api.perplexity.ai/chat/completions";
