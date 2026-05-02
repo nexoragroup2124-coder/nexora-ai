@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0d10">
+  <meta name="description" content="Nexora AI is an advanced chat assistant for reasoning, research, writing, coding, and planning.">
+  <title>Nexora AI</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/nexora-icon.jpeg" type="image/jpeg">
+  <link rel="apple-touch-icon" href="icons/nexora-icon.jpeg">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <div class="brand-row">
+        <img class="brand-mark brand-logo" src="icons/nexora-icon.jpeg" alt="Nexora logo">
+        <div>
+          <p class="brand-name">Nexora</p>
+          <p class="brand-subtitle">Nexora AI</p>
+        </div>
+      </div>
+
+      <button class="new-chat" id="newChatBtn">
+        <span class="icon">+</span>
+        <span data-i18n="newChat">New chat</span>
+      </button>
+
+      <div class="search-wrap">
+        <input id="threadSearch" type="search" placeholder="Search chats" aria-label="Search chats" data-i18n-placeholder="searchChats">
+      </div>
+
+      <nav class="thread-list" id="threadList" aria-label="Chat history"></nav>
+
+      <div class="sidebar-footer">
+        <button class="ghost-btn" id="exportBtn" title="Export current chat" data-i18n="export">Export</button>
+        <button class="ghost-btn" id="settingsBtn" title="Open settings" data-i18n="settings">Settings</button>
+      </div>
+    </aside>
+
+    <main class="main-panel">
+      <header class="topbar">
+        <button class="icon-btn mobile-only" id="sidebarToggle" aria-label="Toggle sidebar">
+          <span></span><span></span><span></span>
+        </button>
+        <div>
+          <p class="eyebrow">Nexora AI</p>
+          <h1 id="chatTitle">Ask anything</h1>
+        </div>
+        <div class="status-pill" id="statusPill">Offline engine ready</div>
+      </header>
+
+      <section class="hero-panel" id="heroPanel">
+        <div class="hero-copy">
+          <p class="eyebrow" data-i18n="workspace">Advanced assistant workspace</p>
+          <h2>Nexora AI</h2>
+          <p data-i18n="heroText">Plan, research, write, summarize, code, compare ideas, and keep every conversation organized.</p>
+          <div class="hero-actions">
+            <button class="mini-btn" id="launchPlanBtn" type="button" data-i18n="launchPlan">Launch plan</button>
+            <button class="mini-btn" id="moneyPlanBtn" type="button" data-i18n="earnMoney">Earn money</button>
+          </div>
+        </div>
+        <div class="quick-grid" id="quickGrid"></div>
+      </section>
+
+      <section class="messages" id="messages" aria-live="polite"></section>
+
+      <section class="composer-panel">
+        <div class="mode-bar" role="toolbar" aria-label="AI modes">
+          <button class="mode-btn active" data-mode="reason" data-i18n="reason">Reason</button>
+          <button class="mode-btn" data-mode="search" data-i18n="search">Search</button>
+          <button class="mode-btn" data-mode="code" data-i18n="code">Code</button>
+          <button class="mode-btn" data-mode="creative" data-i18n="create">Create</button>
+          <button class="mode-btn" data-mode="brief" data-i18n="brief">Brief</button>
+        </div>
+
+        <form class="composer" id="composer">
+          <button type="button" class="tool-btn" id="attachBtn" title="Add context">+</button>
+          <textarea id="promptInput" rows="1" placeholder="Message Nexora AI..." aria-label="Message Nexora AI" data-i18n-placeholder="message"></textarea>
+          <button type="button" class="tool-btn" id="voiceBtn" title="Dictation">Mic</button>
+          <button class="send-btn" id="sendBtn" type="submit" aria-label="Send message">
+            <span data-i18n="send">Send</span>
+          </button>
+        </form>
+        <div class="context-row" id="contextRow"></div>
+      </section>
+    </main>
+
+    <aside class="inspector">
+      <div class="panel-block">
+        <div class="panel-heading">
+          <h2>Workspace</h2>
+          <span id="messageCount">0 messages</span>
+        </div>
+        <div class="metric-grid">
+          <div><strong id="tokenEstimate">0</strong><span>tokens</span></div>
+          <div><strong id="sourceCount">0</strong><span>sources</span></div>
+        </div>
+      </div>
+
+      <div class="panel-block">
+        <div class="panel-heading">
+          <h2>Capabilities</h2>
+        </div>
+        <ul class="cap-list">
+          <li>Model gateway ready</li>
+          <li>9 language interface</li>
+          <li>Premium theme system</li>
+          <li>Local chat memory</li>
+          <li>Exportable transcripts</li>
+        </ul>
+      </div>
+
+      <div class="panel-block">
+        <div class="panel-heading">
+          <h2>AI Gateway</h2>
+        </div>
+        <select id="modelSelect" aria-label="Model style">
+          <option value="nexora-max">Nexora Max</option>
+          <option value="nexora-research">Nexora Research</option>
+          <option value="nexora-code">Nexora Code</option>
+          <option value="nexora-fast">Nexora Fast</option>
+        </select>
+      </div>
+
+      <div class="panel-block">
+        <div class="panel-heading">
+          <h2>Language</h2>
+        </div>
+        <select id="languageSelect" aria-label="App language">
+          <option value="en">English</option>
+          <option value="hi">Hindi</option>
+          <option value="te">Telugu</option>
+          <option value="ta">Tamil</option>
+          <option value="gu">Gujarati</option>
+          <option value="mr">Marathi</option>
+          <option value="kn">Kannada</option>
+          <option value="ml">Malayalam</option>
+        </select>
+      </div>
+
+      <div class="panel-block">
+        <div class="panel-heading">
+          <h2>Theme</h2>
+        </div>
+        <div class="theme-grid" id="themeGrid">
+          <button class="theme-tile active" data-theme="obsidian">Obsidian</button>
+          <button class="theme-tile" data-theme="aurora">Aurora</button>
+          <button class="theme-tile" data-theme="ivory">Ivory</button>
+          <button class="theme-tile" data-theme="royal">Royal</button>
+        </div>
+      </div>
+
+      <div class="panel-block premium-card">
+        <div class="panel-heading">
+          <h2>Business</h2>
+        </div>
+        <p>Free, Pro, and Team plans can be added after the backend, login, and payment system are connected.</p>
+      </div>
+    </aside>
+  </div>
+
+  <dialog class="modal" id="settingsModal">
+    <form method="dialog" class="modal-card">
+      <div class="modal-head">
+        <div>
+          <p class="eyebrow">Nexora settings</p>
+          <h2>Connect a model provider</h2>
+        </div>
+        <button class="icon-btn close-btn" value="close" aria-label="Close settings">x</button>
+      </div>
+      <label>
+        Provider
+        <select id="providerSelect">
+          <option value="offline">Offline Nexora engine</option>
+          <option value="openai">OpenAI-compatible</option>
+          <option value="xai">xAI-compatible</option>
+          <option value="gemini">Gemini-compatible</option>
+          <option value="perplexity">Perplexity-compatible</option>
+          <option value="voice">Voice assistant-compatible</option>
+          <option value="custom">Custom endpoint</option>
+        </select>
+      </label>
+      <div class="model-hub">
+        <h3>Clean model gateway</h3>
+        <p>Nexora can connect to providers through official APIs or compatible backend adapters. Brand names are listed only for setup, not copied or impersonated.</p>
+        <div class="model-badges">
+          <span>OpenAI API</span>
+          <span>xAI API</span>
+          <span>Gemini API</span>
+          <span>Perplexity API</span>
+          <span>Custom LLM</span>
+          <span>Voice APIs</span>
+        </div>
+      </div>
+      <label>
+        API endpoint
+        <input id="endpointInput" type="url" placeholder="https://api.openai.com/v1/chat/completions">
+      </label>
+      <label>
+        API key
+        <input id="apiKeyInput" type="password" placeholder="Stored only in this browser">
+      </label>
+      <label>
+        Model name
+        <input id="apiModelInput" type="text" placeholder="gpt-4.1, grok-3, or your model">
+      </label>
+      <div class="modal-actions">
+        <button type="button" class="ghost-btn" id="clearSettingsBtn">Clear</button>
+        <button class="send-btn" id="saveSettingsBtn" value="default">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js").catch(() => {});
+      });
+    }
+  </script>
+</body>
+</html>
