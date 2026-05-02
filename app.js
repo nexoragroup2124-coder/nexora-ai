@@ -397,7 +397,7 @@ async function cloudBackendReply(prompt) {
     .slice(-12)
     .map(message => ({ role: message.role, content: message.content }));
 
-  const response = await fetch("/api/chat", {
+  let response = await fetch("/.netlify/functions/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -407,6 +407,19 @@ async function cloudBackendReply(prompt) {
       language: settings.language
     })
   });
+
+  if (response.status === 404) {
+    response = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        messages,
+        mode: activeMode,
+        modelStyle: settings.modelStyle,
+        language: settings.language
+      })
+    });
+  }
 
   const data = await response.json().catch(() => ({}));
 
