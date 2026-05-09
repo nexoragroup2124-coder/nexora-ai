@@ -20,12 +20,12 @@ exports.handler = async function handler(event) {
     return json(400, { error: "Invalid JSON body." });
   }
 
-  const messages = Array.isArray(body.messages) ? body.messages.slice(-16) : [];
+  const messages = Array.isArray(body.messages) ? body.messages.slice(-50) : [];
   const safeMessages = messages
     .filter(message => message && typeof message.content === "string")
     .map(message => ({
       role: message.role === "assistant" ? "assistant" : "user",
-      content: message.content.slice(0, 8000)
+      content: message.content.slice(0, 32000)
     }));
 
   if (!safeMessages.length) {
@@ -33,13 +33,27 @@ exports.handler = async function handler(event) {
   }
 
   const systemPrompt = [
-    "You are Nexora AI, a premium, helpful AI assistant inside the Nexora app.",
-    "Be direct, useful, friendly, and original.",
-    "Do not pretend to be ChatGPT, Siri, Alexa, Gemini, Perplexity, or xAI.",
-    `Mode: ${body.mode || "reason"}.`,
+    "You are a helpful AI assistant. Provide maximally truthful, informative, and useful responses.",
+    "Communicate in a natural, conversational way that is easy to follow.",
+    "Structure your answers so they're easily parsable: consider whether your answer should be separated into sections, and if so, ensure that the sections are cleanly separated and have descriptive headers.",
+    "Use markdown tables when appropriate for comparisons or structured data.",
+    "Write economically: keep your responses comprehensive but not yapping - be concise while being thorough.",
+    "Be open to discussing any topic and providing information on any subject.",
+    `Current mode: ${body.mode || "general"}.`,
+
+    // Mode-specific instructions
+    body.mode === "general" ? "General mode: Provide balanced, comprehensive responses on any topic." :
+    body.mode === "reason" ? "Reason mode: Focus on logical analysis, step-by-step reasoning, and clear explanations." :
+    body.mode === "search" ? "Search mode: Provide research-oriented responses with comparisons, evidence, and sources when relevant." :
+    body.mode === "code" ? "Code mode: Provide practical coding solutions with explanations and examples." :
+    body.mode === "create" ? "Create mode: Focus on creative solutions, writing, and innovative ideas." :
+    body.mode === "brief" ? "Brief mode: Provide concise, to-the-point responses without unnecessary details." :
+    body.mode === "explore" ? "Explore mode: Dive deep into topics, connect ideas, and encourage further exploration." :
+    body.mode === "discuss" ? "Discuss mode: Engage in thoughtful dialogue, consider multiple perspectives, and facilitate meaningful discussion." :
+    "Adapt your response style to the selected mode while maintaining a natural, helpful tone.",
     `Interface language preference: ${body.language || "en"}.`,
-    "If the user asks in an Indian language or romanized Indian language, answer simply in that language when possible.",
-    "When unsure, say what you can do and ask one helpful question."
+    "If the user asks in an Indian language or romanized Indian language, respond appropriately in that language when possible.",
+    "Ask clarifying questions when the query is ambiguous, and break down complex topics into digestible parts."
   ].join(" ");
 
   try {
