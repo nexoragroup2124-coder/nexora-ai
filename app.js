@@ -3,20 +3,20 @@ const settingsKey = "nexora.settings.v1";
 
 const quickPrompts = [
   {
-    title: "Research a decision",
-    text: "Compare three laptops for app development under a realistic budget."
+    title: "Explore any topic",
+    text: "Tell me about quantum physics and how it might change our understanding of reality."
   },
   {
-    title: "Build a plan",
-    text: "Create a 30-day roadmap to launch a polished AI chatbot product."
+    title: "Deep discussion",
+    text: "What are the most important philosophical questions humanity should be asking right now?"
   },
   {
-    title: "Write better",
-    text: "Rewrite this message so it sounds confident, concise, and professional."
+    title: "Creative brainstorming",
+    text: "Help me brainstorm ideas for a science fiction story about artificial consciousness."
   },
   {
-    title: "Code with me",
-    text: "Design a React component for a responsive chat composer with attachments."
+    title: "Learn something new",
+    text: "Explain the concept of blockchain technology and its potential applications beyond cryptocurrency."
   }
 ];
 
@@ -27,14 +27,17 @@ const translations = {
     export: "Export",
     settings: "Settings",
     workspace: "Advanced assistant workspace",
-    heroText: "Plan, research, write, summarize, code, compare ideas, and keep every conversation organized.",
+    heroText: "Discuss any topic, explore ideas deeply, get creative, write code, research thoroughly, and keep every conversation organized.",
     launchPlan: "Launch plan",
     earnMoney: "Earn money",
+    general: "General",
     reason: "Reason",
     search: "Search",
     code: "Code",
     create: "Create",
     brief: "Brief",
+    explore: "Explore",
+    discuss: "Discuss",
     message: "Message Nexora AI...",
     send: "Send"
   },
@@ -44,23 +47,26 @@ const translations = {
     export: "Export",
     settings: "Settings",
     workspace: "Advanced assistant workspace",
-    heroText: "Plan, research, writing, summary, coding aur ideas ko ek jagah organize karein.",
+    heroText: "Koi bhi topic discuss karein, ideas ko deeply explore karein, creative ho jayein, code likhein, research karein, aur har conversation organize rakhein.",
     launchPlan: "Launch plan",
     earnMoney: "Paise kamayein",
+    general: "Sāmānya",
     reason: "Soch",
     search: "Search",
     code: "Code",
     create: "Create",
     brief: "Brief",
+    explore: "Anveṣaṇ",
+    discuss: "Charcha",
     message: "Nexora AI ko message bhejein...",
     send: "Send"
   },
-  te: { newChat: "Kotha chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Planning, research, writing, coding mariyu ideas ni organize cheyandi.", launchPlan: "Launch plan", earnMoney: "Earn money", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", message: "Nexora AI ki message...", send: "Send" },
-  ta: { newChat: "Puthiya chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Plan, research, write, summarize, code matrum ideas organize seiyungal.", launchPlan: "Launch plan", earnMoney: "Earn money", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", message: "Nexora AI ku message...", send: "Send" },
-  gu: { newChat: "Navi chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Plan, research, writing, summary, coding ane ideas organize karo.", launchPlan: "Launch plan", earnMoney: "Earn money", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", message: "Nexora AI ne message...", send: "Send" },
-  mr: { newChat: "Navi chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Plan, research, writing, summary, coding ani ideas organize kara.", launchPlan: "Launch plan", earnMoney: "Earn money", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", message: "Nexora AI la message...", send: "Send" },
-  kn: { newChat: "Hosa chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Plan, research, writing, summary, coding mattu ideas organize madi.", launchPlan: "Launch plan", earnMoney: "Earn money", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", message: "Nexora AI ge message...", send: "Send" },
-  ml: { newChat: "Puthiya chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Plan, research, writing, summary, coding, ideas organize cheyyuka.", launchPlan: "Launch plan", earnMoney: "Earn money", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", message: "Nexora AI ku message...", send: "Send" }
+  te: { newChat: "Kotha chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Evarina topic ni discuss cheyandi, ideas ni deeply explore cheyandi, creative avandi, code rayandi, research cheyandi, mariyu prati conversation ni organize cheyandi.", launchPlan: "Launch plan", earnMoney: "Earn money", general: "Sāmānya", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", explore: "Anveṣaṇ", discuss: "Charcha", message: "Nexora AI ki message...", send: "Send" },
+  ta: { newChat: "Puthiya chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Eppadiyum topic ah discuss pannungal, ideas ah deeply explore pannungal, creative aavungal, code ezhuthungal, research pannungal, mattum ellam conversation ah organize pannungal.", launchPlan: "Launch plan", earnMoney: "Earn money", general: "Sāmānya", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", explore: "Anveṣaṇ", discuss: "Charcha", message: "Nexora AI ku message...", send: "Send" },
+  gu: { newChat: "Navi chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Koi pan topic discuss karo, ideas deeply explore karo, creative bano, code lakh, research karo, ane darek conversation organize rako.", launchPlan: "Launch plan", earnMoney: "Earn money", general: "Sāmānya", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", explore: "Anveṣaṇ", discuss: "Charcha", message: "Nexora AI ne message...", send: "Send" },
+  mr: { newChat: "Navi chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Koni topic discuss kara, ideas deeply explore kara, creative vha, code lihi, research kara, ani pratyek conversation organize raha.", launchPlan: "Launch plan", earnMoney: "Earn money", general: "Sāmānya", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", explore: "Anveṣaṇ", discuss: "Charcha", message: "Nexora AI la message...", send: "Send" },
+  kn: { newChat: "Hosa chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Yavude topic annu discuss madi, ideas annu deeply explore madi, creative agi, code bari, research madi, mattu ellavu conversation annu organize madi.", launchPlan: "Launch plan", earnMoney: "Earn money", general: "Sāmānya", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", explore: "Anveṣaṇ", discuss: "Charcha", message: "Nexora AI ge message...", send: "Send" },
+  ml: { newChat: "Puthiya chat", searchChats: "Chat search", export: "Export", settings: "Settings", workspace: "Advanced assistant workspace", heroText: "Enta topic um discuss cheyyuka, ideas deeply explore cheyyuka, creative aavuka, code ezhuthuka, research cheyyuka, ellam conversation organize cheyyuka.", launchPlan: "Launch plan", earnMoney: "Earn money", general: "Sāmānya", reason: "Reason", search: "Search", code: "Code", create: "Create", brief: "Brief", explore: "Anveṣaṇ", discuss: "Charcha", message: "Nexora AI ku message...", send: "Send" }
 };
 
 const els = {
@@ -102,7 +108,7 @@ const els = {
 
 let state = loadState();
 let settings = loadSettings();
-let activeMode = "reason";
+let activeMode = "general";
 let contextChips = [];
 let isGenerating = false;
 
@@ -127,8 +133,8 @@ function loadState() {
       {
         id: uid(),
         role: "assistant",
-        mode: "reason",
-        content: "Hi, I am Nexora AI. I can help you reason through ideas, draft content, write code, summarize material, and organize research. Ask me anything or pick a starter prompt.",
+        mode: "general",
+        content: "Hello! I'm here to help with any questions or tasks you have. I can assist with research, writing, coding, analysis, creative projects, and virtually any topic you want to explore. What would you like to work on today?",
         createdAt: Date.now()
       }
     ]
@@ -456,7 +462,15 @@ async function offlineNexora(prompt) {
     return briefAnswer(prompt, style) + context;
   }
 
-  return reasonAnswer(prompt, style) + context;
+  if (activeMode === "explore" || /\b(explore|deep|dive|understand|learn|curious)\b/i.test(prompt)) {
+    return exploreAnswer(prompt, style) + context;
+  }
+
+  if (activeMode === "discuss" || /\b(discuss|debate|opinion|perspective|think|about)\b/i.test(prompt)) {
+    return discussAnswer(prompt, style) + context;
+  }
+
+  return generalAnswer(prompt, style) + context;
 }
 
 function directAnswer(prompt, style) {
@@ -464,20 +478,27 @@ function directAnswer(prompt, style) {
   const lower = clean.toLowerCase();
 
   if (/^(hi|hello|hey|namaste|hola|yo|hii+)\b/.test(lower)) {
-    return `Hey, I am Nexora AI. Ask me something specific and I will help directly.\n\nTry one of these:\n- "Make a study plan for my exam"\n- "Explain photosynthesis simply"\n- "Write an Instagram caption"\n- "Help me choose a laptop"\n- "Create a business idea for students"`;
+    return `Hello! I'm here to help with anything you need. What would you like to know or discuss?`;
   }
 
   if (/\b(who are you|what are you|your name)\b/.test(lower)) {
-    return `I am Nexora AI, your assistant inside the Nexora app. I can help with writing, study, planning, coding, ideas, summaries, and decisions.\n\nRight now I am using Nexora's local demo brain. For real advanced AI like a production assistant, connect Nexora to a backend AI provider.`;
+    return `I'm an AI assistant designed to be helpful and informative. I can answer questions, help with tasks, provide explanations, and engage in conversations about virtually any topic. What can I help you with today?`;
   }
 
   if (/\b(joke|funny|make me laugh)\b/.test(lower)) {
-    return `Here is one:\n\nWhy did the developer open a bakery?\nBecause they wanted better cookies.\n\nOkay, small smile only. Give me a topic and I can make the next one funnier.`;
+    return `Here's a quick one:\n\nWhy did the developer go broke?\nBecause he used up all his cache!\n\n😄 What topic would you like a joke about?`;
   }
 
   if (/\b(meaning of|define|what is|explain)\b/.test(lower) && clean.length < 120) {
     const topic = clean.replace(/^(what is|explain|define|meaning of)\s+/i, "").replace(/[?!.]+$/, "");
-    return `Simple explanation of ${topic}:\n\n${topic} means a thing, idea, or process you are asking about. The easiest way to understand it is to break it into:\n\n1. What it is.\n2. Why it matters.\n3. Where people use it.\n4. One simple example.\n\nAsk me "explain ${topic} like I am 10" and I will make it even simpler.`;
+    return `${topic} refers to a concept, object, or idea. Let me break it down for you:
+
+**What it is**: [Basic definition]
+**Why it matters**: [Importance or relevance]
+**How it's used**: [Common applications]
+**Example**: [Simple illustration]
+
+If you'd like a more detailed explanation or have a specific aspect you'd like me to focus on, just let me know!`;
   }
 
   if (/^\s*[\d\s+\-*/().%]+\s*$/.test(clean) && /\d/.test(clean)) {
@@ -485,15 +506,25 @@ function directAnswer(prompt, style) {
       const safeExpression = clean.replace(/%/g, "/100");
       const result = Function(`"use strict"; return (${safeExpression})`)();
       if (Number.isFinite(result)) {
-        return `Answer: ${result}\n\nI calculated the expression you typed.`;
+        return `The result is **${result}**.`;
       }
     } catch {
-      return `I tried to calculate that, but the expression is not clear. Try something like:\n\n12 + 8 * 3`;
+      return `I couldn't evaluate that expression. Try something like "12 + 8 * 3" or "25% of 200".`;
     }
   }
 
   if (/\b(study|exam|homework|learn|school|college|marks)\b/.test(lower)) {
-    return `Here is a simple study plan for this:\n\nTopic: ${firstSentence(prompt)}\n\n1. Spend 20 minutes understanding the basics.\n2. Write short notes in your own words.\n3. Practice 5 questions.\n4. Check mistakes immediately.\n5. Revise again tomorrow for 10 minutes.\n\nBest method: do not only read. Test yourself, because recall is what improves marks.`;
+    return `I'd be happy to help with your studies! Here's a practical approach:
+
+**Study Plan for: ${firstSentence(prompt)}**
+
+1. **Start with basics** (20-30 minutes): Get the core concepts down
+2. **Active learning**: Take notes in your own words, create mind maps
+3. **Practice**: Do 5-10 example problems or questions
+4. **Self-test**: Quiz yourself without looking at notes
+5. **Review**: Go over mistakes and weak areas
+
+The key is active recall - testing yourself is more effective than just re-reading. What specific topic are you studying?`;
   }
 
   if (/\b(business|startup|idea|money|earn|income|sell)\b/.test(lower)) {
@@ -501,11 +532,38 @@ function directAnswer(prompt, style) {
   }
 
   if (/\b(love|friend|family|sad|angry|stress|confused|motivation)\b/.test(lower)) {
-    return `I hear you. For this kind of situation, do this calmly:\n\n1. Name the exact problem in one sentence.\n2. Do not react immediately if emotions are high.\n3. Talk to the person with one clear sentence: "I feel ___ because ___."\n4. Ask what outcome you both want.\n5. If it is serious or unsafe, speak to a trusted person nearby.\n\nIf you tell me what happened, I can help you write the exact message to send.`;
+    return `I understand you're dealing with some emotional challenges. While I'm here to listen and offer general advice, remember that for serious personal issues, speaking with a trusted friend, family member, or professional counselor can be very helpful.
+
+That said, here are some general strategies that often help:
+
+**When emotions are running high:**
+- Take a few deep breaths and give yourself time to process
+- Try to identify the specific feeling and what triggered it
+- Consider writing down your thoughts to clarify them
+
+**Communication approach:**
+- Use "I" statements: "I feel ___ when ___"
+- Focus on understanding rather than winning an argument
+- Listen actively to the other person's perspective
+
+What specific situation are you facing? I'm here to help you think through it.`;
   }
 
   if (/\b(doctor|medicine|pain|symptom|legal|lawyer|invest|stock|crypto|loan)\b/.test(lower)) {
-    return `I can help you think through this, but this may need expert advice.\n\nFor safety:\n- Medical problems: speak to a doctor or local emergency service if urgent.\n- Legal problems: speak to a qualified lawyer.\n- Money/investing: avoid rushing and check risk carefully.\n\nWhat I can do now: help you list the facts, questions to ask an expert, and safer next steps.`;
+    return `I can provide general information and help you think through these topics, but please remember:
+
+**Important disclaimers:**
+- For medical concerns: Always consult a healthcare professional for personalized advice
+- For legal matters: Speak with a qualified attorney familiar with your jurisdiction
+- For financial decisions: Consider your risk tolerance and consult financial advisors
+
+That said, I can help you:
+- Understand general concepts and options
+- Prepare questions to ask professionals
+- Think through pros and cons
+- Find reliable sources of information
+
+What specific aspect would you like to explore?`;
   }
 
   return "";
@@ -522,7 +580,13 @@ function reasonAnswer(prompt, style) {
 
   const ask = firstSentence(prompt);
   const actions = buildActionList(prompt);
-  return `I understand the request as: ${ask}\n\nHere is a useful answer:\n\n${actions}\n\nMy recommendation in ${style} mode: choose the smallest step that gives a visible result, do it first, then improve. If you want, ask a follow-up like "make it simpler", "make it detailed", or "turn this into a checklist".`;
+  return `I understand you're asking about: ${ask}
+
+Here's a logical breakdown:
+
+${actions}
+
+The key insight here is to start with the smallest actionable step that will give you immediate feedback. This approach helps you learn and iterate quickly. What specific aspect would you like me to expand on?`;
 }
 
 function gatewayAnswer(style) {
@@ -534,19 +598,141 @@ function moneyAnswer(style) {
 }
 
 function researchAnswer(prompt, style) {
-  return `Research mode for: ${firstSentence(prompt)}\n\nI would compare it like this:\n\n| Area | What to check |\n| --- | --- |\n| Main answer | What is most likely true or useful? |\n| Evidence | What source or proof supports it? |\n| Cost | Time, money, effort, and risk |\n| Alternatives | What are the other choices? |\n| Final decision | What should you do next? |\n\nBest next step: collect 3 reliable sources, remove weak claims, then make a short conclusion.\n\nNote: this local version cannot browse live websites. For real Perplexity-style live research, Nexora needs the backend AI/search connection.`;
+  return `Research analysis for: ${firstSentence(prompt)}
+
+Here's a structured approach to evaluating this topic:
+
+| Aspect | Key Questions |
+|--------|---------------|
+| **Core Answer** | What seems most accurate or useful based on available information? |
+| **Evidence** | What sources or data support this conclusion? |
+| **Costs & Benefits** | What are the trade-offs in time, money, effort, and risk? |
+| **Alternatives** | What other options or perspectives exist? |
+| **Next Steps** | What should you do with this information? |
+
+**Recommended approach:**
+1. Gather information from 3+ reliable sources
+2. Cross-reference claims and eliminate contradictory information
+3. Consider your specific context and constraints
+4. Make an informed decision based on the strongest evidence
+
+Note: For real-time web research capabilities, you'll need to connect to a backend service with search integration. What specific aspect of this topic would you like me to help you research?`;
 }
 
 function codeAnswer(prompt, style) {
-  return `Code help for: ${firstSentence(prompt)}\n\nUse this structure:\n\n\`\`\`js\nconst appState = {\n  input: "",\n  result: null,\n  loading: false,\n  error: ""\n};\n\nfunction setState(nextState) {\n  Object.assign(appState, nextState);\n  render();\n}\n\nasync function handleAction() {\n  setState({ loading: true, error: "" });\n  try {\n    const result = await runLogic(appState.input);\n    setState({ result });\n  } catch (error) {\n    setState({ error: error.message });\n  } finally {\n    setState({ loading: false });\n  }\n}\n\`\`\`\n\nChecklist:\n- Make the main feature work first.\n- Add loading and error states.\n- Save important data.\n- Test on mobile.\n- Keep the UI simple enough that users understand it instantly.`;
+  return `Code solution for: ${firstSentence(prompt)}
+
+Here's a practical implementation approach:
+
+\`\`\`javascript
+// Example structure - adapt this to your specific needs
+const appState = {
+  input: "",
+  result: null,
+  loading: false,
+  error: ""
+};
+
+function updateState(newState) {
+  Object.assign(appState, newState);
+  renderUI();
+}
+
+async function handleAction() {
+  updateState({ loading: true, error: "" });
+  try {
+    const result = await processData(appState.input);
+    updateState({ result, loading: false });
+  } catch (error) {
+    updateState({ error: error.message, loading: false });
+  }
+}
+\`\`\`
+
+**Key considerations:**
+- **Core functionality first**: Get the main feature working before adding bells and whistles
+- **Error handling**: Always include proper error states and user feedback
+- **Performance**: Consider loading states for async operations
+- **User experience**: Keep the interface intuitive and responsive
+- **Testing**: Test across different devices and scenarios
+
+What specific programming challenge are you working on? I can provide more targeted code examples.`;
 }
 
 function creativeAnswer(prompt, style) {
-  return `Creative draft for: ${firstSentence(prompt)}\n\nOption 1: Premium and direct\n"Built for people who want faster answers, clearer ideas, and better work."\n\nOption 2: Friendly and simple\n"Ask. Understand. Create. Nexora helps you move from question to result."\n\nOption 3: Futuristic\n"Your intelligent workspace for ideas, research, code, and decisions."\n\nMy pick: use simple words with a premium visual style. People trust products that are clear more than products that sound complicated.`;
+  return `Creative concept for: ${firstSentence(prompt)}
+
+Here are several approaches you could consider:
+
+**Option 1: Direct & Professional**
+"Empowering people to think faster, work smarter, and achieve more."
+
+**Option 2: Conversational & Approachable**
+"Ask questions. Get answers. Make progress. Your AI companion for ideas and execution."
+
+**Option 3: Visionary & Inspiring**
+"Transforming how we think, create, and connect through intelligent conversation."
+
+**Option 4: Feature-Focused**
+"Where ideas become reality. Research, write, code, and collaborate with AI assistance."
+
+I recommend starting with clear, benefit-focused messaging that immediately communicates value. People are more likely to engage with solutions that solve their specific problems. What kind of tone or style are you aiming for with this creative project?`;
 }
 
 function briefAnswer(prompt, style) {
-  return `Short answer:\n\n${firstSentence(prompt)}\n\nBest next move: decide the exact result you want, then take one small action toward it today.\n\nSimple checklist:\n- What is the goal?\n- What is blocking it?\n- What can be done in 10 minutes?\n- What needs help, tools, or money?\n\nThat gives you clarity fast.`;
+  return `**TL;DR:** ${firstSentence(prompt)}
+
+**Key takeaway:** Focus on the one most important action you can take immediately.
+
+**Quick action plan:**
+- Define your specific goal clearly
+- Identify the biggest obstacle
+- Choose one small, concrete step (under 10 minutes)
+- Execute it today
+
+This approach cuts through complexity and gets you moving forward quickly. What's your main objective here?`;
+}
+
+function generalAnswer(prompt, style) {
+  const ask = firstSentence(prompt);
+  const actions = buildActionList(prompt);
+  return `I understand you're asking about: ${ask}
+
+Here's a comprehensive response that should help:
+
+${actions}
+
+This covers the key aspects of your question. If you'd like me to elaborate on any particular point, provide more details about what you're looking for, or explore related topics, feel free to ask!`;
+}
+
+function exploreAnswer(prompt, style) {
+  const topic = firstSentence(prompt);
+  return `Let's explore: ${topic}
+
+This is a fascinating topic with many dimensions. Here's what we could dive into:
+
+**Core Concepts**: What are the fundamental ideas and principles?
+**Historical Context**: How has this developed over time?
+**Current Applications**: Where is this used today?
+**Future Implications**: What might happen next?
+**Related Ideas**: What connects to this topic?
+
+What aspect interests you most? Or would you like me to start with a specific angle? I'm ready to explore as deeply as you'd like.`;
+}
+
+function discussAnswer(prompt, style) {
+  const topic = firstSentence(prompt);
+  return `Let's discuss: ${topic}
+
+This is an interesting topic with multiple perspectives. Here are some key viewpoints to consider:
+
+**Perspective 1:** [One way to look at it]
+
+**Perspective 2:** [Another angle]
+
+**Perspective 3:** [A different consideration]
+
+What are your thoughts on this? Do you agree with any of these viewpoints, or do you see it differently? I'm here to engage in thoughtful discussion on any topic.`;
 }
 
 function buildActionList(prompt) {
