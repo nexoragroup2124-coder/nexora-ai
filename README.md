@@ -1,6 +1,26 @@
 # Nexora
 
-Nexora is a browser-based AI chat app with a ChatGPT-style workspace, local chat history, multiple assistant modes, export tools, and optional API-provider settings.
+Nexora is a browser-based AI chat app with unlimited conversation capabilities, multiple specialized modes, local chat history, export tools, and optional API-provider settings.
+
+## Features
+
+- **ChatGPT-Style Responses**: Natural, conversational AI responses that are helpful, informative, and engaging
+- **8 Specialized Modes**:
+  - **General**: Balanced responses for any topic
+  - **Reason**: Step-by-step logical analysis and problem-solving
+  - **Search**: Research-oriented responses with evidence and comparisons
+  - **Code**: Practical coding solutions with examples
+  - **Create**: Creative writing, design, and innovative ideas
+  - **Brief**: Concise, to-the-point summaries
+  - **Explore**: Deep dives into topics with multiple perspectives
+  - **Discuss**: Thoughtful dialogue and conversational exploration
+- **Unlimited Conversations**: Extended message history (50 messages) and content length (32K characters)
+- **Multi-language Support**: English, Hindi, Telugu, Tamil, Gujarati, Marathi, Kannada, Malayalam
+- **Local Chat History**: All conversations saved in your browser
+- **Export Functionality**: Save chats as Markdown files
+- **Context Management**: Add context notes for more relevant responses
+- **Voice Input**: Dictation support (where available)
+- **Offline Mode**: Works without internet using local AI responses
 
 ## Run Locally
 
