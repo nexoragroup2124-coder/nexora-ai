@@ -1,2 +1,11 @@
 /api/chat /.netlify/functions/chat 200
+/api/auth/register /.netlify/functions/auth-register 200
+/api/auth/login /.netlify/functions/auth-login 200
+/api/auth/profile /.netlify/functions/auth-profile 200
+/api/auth/update-plan /.netlify/functions/auth-update-plan 200
+/api/payments/plans /.netlify/functions/payments-get-plans 200
+/api/payments/create-session /.netlify/functions/payments-create-session 200
+/api/payments/portal /.netlify/functions/payments-portal 200
+/api/webhook/stripe /.netlify/functions/payments-webhook 200
+/nexora_ai /index.html 200
 /* /index.html 200

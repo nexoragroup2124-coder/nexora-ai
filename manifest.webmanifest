@@ -1,19 +1,19 @@
 {
-  "name": "Nexora",
-  "short_name": "Nexora",
-  "description": "Nexora AI is an advanced chat assistant for reasoning, research, writing, coding, and planning.",
-  "start_url": "./index.html",
-  "scope": "./",
+  "name": "Nexora AI - Advanced AI Chat Assistant",
+  "short_name": "Nexora AI",
+  "description": "Nexora AI is a free, advanced AI chat assistant with unlimited conversations, local history, and mobile app installation. Chat, code, research, write, and plan with AI.",
+  "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0b0d10",
   "theme_color": "#0b0d10",
   "orientation": "any",
   "icons": [
     {
-      "src": "icons/nexora-icon.jpeg",
-      "sizes": "512x512",
-      "type": "image/jpeg",
-      "purpose": "any"
+      "src": "icons/favicon.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
     },
     {
       "src": "icons/icon-192.svg",

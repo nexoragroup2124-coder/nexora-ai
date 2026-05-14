@@ -4,18 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#0b0d10">
-  <meta name="description" content="Nexora AI is an advanced chat assistant for reasoning, research, writing, coding, and planning.">
-  <title>Nexora AI</title>
+  <meta name="description" content="Nexora AI - Free advanced AI chat assistant. Chat, code, research, write, and plan. Install on mobile or use in browser. No login required to start.">
+  <meta name="keywords" content="AI chat, chatbot, nexora ai, free AI, chat assistant, AI tools, coding assistant, writing assistant, research tool">
+  <meta name="author" content="Nexora AI">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+  <meta name="og:title" content="Nexora AI - Free Advanced AI Chat Assistant">
+  <meta name="og:description" content="Chat with Nexora AI for free. Advanced AI assistant for reasoning, research, writing, coding, and planning. Install as mobile app.">
+  <meta name="og:type" content="website">
+  <meta name="og:url" content="https://nexora-ai.app">
+  <meta name="og:image" content="icons/icon-512.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Nexora AI">
+  <meta name="twitter:description" content="Free AI Chat Assistant - Advanced features, no login required, installable on mobile.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Nexora AI">
+  <title>Nexora AI - Free Advanced AI Chat Assistant</title>
   <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="icons/nexora-icon.jpeg" type="image/jpeg">
-  <link rel="apple-touch-icon" href="icons/nexora-icon.jpeg">
+  <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/nexora-logo.svg">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div class="app-shell">
     <aside class="sidebar" id="sidebar">
       <div class="brand-row">
-        <img class="brand-mark brand-logo" src="icons/nexora-icon.jpeg" alt="Nexora logo">
+        <img class="brand-mark brand-logo" src="icons/nexora-logo.svg" alt="Nexora AI logo">
         <div>
           <p class="brand-name">Nexora</p>
           <p class="brand-subtitle">Nexora AI</p>
@@ -34,6 +49,8 @@
       <nav class="thread-list" id="threadList" aria-label="Chat history"></nav>
 
       <div class="sidebar-footer">
+        <button class="ghost-btn" id="loginBtn" title="Login or register">Login</button>
+        <button class="ghost-btn" id="planBtn" title="Upgrade plan">Upgrade</button>
         <button class="ghost-btn" id="exportBtn" title="Export current chat" data-i18n="export">Export</button>
         <button class="ghost-btn" id="settingsBtn" title="Open settings" data-i18n="settings">Settings</button>
       </div>
@@ -68,22 +85,71 @@
 
       <section class="composer-panel">
         <div class="mode-bar" role="toolbar" aria-label="AI modes">
-          <button class="mode-btn active" data-mode="reason" data-i18n="reason">Reason</button>
+          <button class="mode-btn active" data-mode="general" data-i18n="general">General</button>
+          <button class="mode-btn" data-mode="reason" data-i18n="reason">Reason</button>
           <button class="mode-btn" data-mode="search" data-i18n="search">Search</button>
           <button class="mode-btn" data-mode="code" data-i18n="code">Code</button>
-          <button class="mode-btn" data-mode="creative" data-i18n="create">Create</button>
+          <button class="mode-btn" data-mode="create" data-i18n="create">Create</button>
           <button class="mode-btn" data-mode="brief" data-i18n="brief">Brief</button>
+          <button class="mode-btn" data-mode="explore" data-i18n="explore">Explore</button>
+          <button class="mode-btn" data-mode="discuss" data-i18n="discuss">Discuss</button>
+          <button class="mode-btn" data-mode="analyze" data-i18n="analyze">Analyze</button>
+          <button class="mode-btn" data-mode="research" data-i18n="research">Research</button>
         </div>
 
         <form class="composer" id="composer">
-          <button type="button" class="tool-btn" id="attachBtn" title="Add context">+</button>
-          <textarea id="promptInput" rows="1" placeholder="Message Nexora AI..." aria-label="Message Nexora AI" data-i18n-placeholder="message"></textarea>
-          <button type="button" class="tool-btn" id="voiceBtn" title="Dictation">Mic</button>
+          <div class="composer-tools">
+            <button type="button" class="tool-btn" id="fileBtn" title="Attach files">
+              <span class="tool-icon">📎</span>
+            </button>
+            <button type="button" class="tool-btn" id="imageBtn" title="Upload image">
+              <span class="tool-icon">🖼️</span>
+            </button>
+            <button type="button" class="tool-btn" id="voiceBtn" title="Voice input">
+              <span class="tool-icon">🎤</span>
+            </button>
+          </div>
+          <div class="input-container">
+            <textarea id="promptInput" rows="1" placeholder="Ask me anything..." aria-label="Message AI" data-i18n-placeholder="message"></textarea>
+            <div class="input-actions">
+              <button type="button" class="action-btn" id="clearBtn" title="Clear conversation">🗑️</button>
+              <button type="button" class="action-btn" id="regenerateBtn" title="Regenerate response">🔄</button>
+            </div>
+          </div>
           <button class="send-btn" id="sendBtn" type="submit" aria-label="Send message">
+            <span class="send-icon">🚀</span>
             <span data-i18n="send">Send</span>
           </button>
         </form>
+        <div class="advanced-features">
+          <div class="feature-row">
+            <div class="feature-item" id="modelSelector">
+              <span class="feature-label">Model:</span>
+              <select id="modelSelect" class="feature-select">
+                <option value="nexora-max">Nexora Max</option>
+                <option value="nexora-pro">Nexora Pro</option>
+                <option value="nexora-fast">Nexora Fast</option>
+                <option value="gpt-4o">GPT-4o</option>
+                <option value="claude-3">Claude 3</option>
+                <option value="gemini-pro">Gemini Pro</option>
+              </select>
+            </div>
+            <div class="feature-item" id="temperatureControl">
+              <span class="feature-label">Creativity:</span>
+              <input type="range" id="temperatureSlider" min="0" max="2" step="0.1" value="0.7" class="feature-slider">
+              <span id="temperatureValue" class="feature-value">0.7</span>
+            </div>
+          </div>
+        </div>
         <div class="context-row" id="contextRow"></div>
+        <div class="typing-indicator" id="typingIndicator" style="display: none;">
+          <div class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <span class="typing-text">AI is thinking...</span>
+        </div>
       </section>
     </main>
 
@@ -94,8 +160,72 @@
           <span id="messageCount">0 messages</span>
         </div>
         <div class="metric-grid">
-          <div><strong id="tokenEstimate">0</strong><span>tokens</span></div>
-          <div><strong id="sourceCount">0</strong><span>sources</span></div>
+          <div><strong id="tokenEstimate">∞ Unlimited</strong><span>tokens</span></div>
+          <div><strong id="sourceCount">∞</strong><span>sources</span></div>
+        </div>
+        <div class="advanced-stats" id="advancedStats">
+          <div class="stat-item">
+            <span class="stat-label">Words:</span>
+            <span class="stat-value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Characters:</span>
+            <span class="stat-value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Sources:</span>
+            <span class="stat-value">0</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-label">Citations:</span>
+            <span class="stat-value">0</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-block">
+        <div class="panel-heading">
+          <h2>Advanced Tools</h2>
+        </div>
+        <div class="tool-grid">
+          <button class="tool-btn" id="searchBtn" title="Search in conversation">
+            <span class="tool-icon">🔍</span>
+            <span>Search</span>
+          </button>
+          <button class="tool-btn" id="bookmarksBtn" title="View bookmarks">
+            <span class="tool-icon">⭐</span>
+            <span>Bookmarks</span>
+          </button>
+          <button class="tool-btn" id="forkBtn" title="Fork conversation">
+            <span class="tool-icon">🌿</span>
+            <span>Fork</span>
+          </button>
+          <button class="tool-btn" id="summaryBtn" title="Conversation summary">
+            <span class="tool-icon">📊</span>
+            <span>Summary</span>
+          </button>
+          <button class="tool-btn" id="templateBtn" title="Use template">
+            <span class="tool-icon">📋</span>
+            <span>Template</span>
+          </button>
+          <button class="tool-btn" id="exportJsonBtn" title="Export as JSON">
+            <span class="tool-icon">📄</span>
+            <span>JSON</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="panel-block">
+        <div class="panel-heading">
+          <h2>Conversation Templates</h2>
+        </div>
+        <div class="template-list">
+          <button class="template-btn" data-template="code-review">Code Review</button>
+          <button class="template-btn" data-template="writing-assistant">Writing Assistant</button>
+          <button class="template-btn" data-template="research-analyst">Research Analyst</button>
+          <button class="template-btn" data-template="business-consultant">Business Consultant</button>
+          <button class="template-btn" data-template="creative-writer">Creative Writer</button>
+          <button class="template-btn" data-template="data-scientist">Data Scientist</button>
         </div>
       </div>
 
@@ -104,6 +234,8 @@
           <h2>Capabilities</h2>
         </div>
         <ul class="cap-list">
+          <li>Unlimited tokens</li>
+          <li>Unlimited sources</li>
           <li>Model gateway ready</li>
           <li>9 language interface</li>
           <li>Premium theme system</li>

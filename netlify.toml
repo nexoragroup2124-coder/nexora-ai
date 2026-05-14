@@ -10,12 +10,57 @@
   to = "/.netlify/functions/chat"
   status = 200
 
+[[redirects]]
+  from = "/api/auth/register"
+  to = "/.netlify/functions/auth-register"
+  status = 200
+
+[[redirects]]
+  from = "/api/auth/login"
+  to = "/.netlify/functions/auth-login"
+  status = 200
+
+[[redirects]]
+  from = "/api/auth/profile"
+  to = "/.netlify/functions/auth-profile"
+  status = 200
+
+[[redirects]]
+  from = "/api/auth/update-plan"
+  to = "/.netlify/functions/auth-update-plan"
+  status = 200
+
+[[redirects]]
+  from = "/api/payments/plans"
+  to = "/.netlify/functions/payments-get-plans"
+  status = 200
+
+[[redirects]]
+  from = "/api/payments/create-session"
+  to = "/.netlify/functions/payments-create-session"
+  status = 200
+
+[[redirects]]
+  from = "/api/payments/portal"
+  to = "/.netlify/functions/payments-portal"
+  status = 200
+
+[[redirects]]
+  from = "/api/webhook/stripe"
+  to = "/.netlify/functions/payments-webhook"
+  status = 200
+
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+[[redirects]]
+  from = "/nexora_ai"
+  to = "/index.html"
+  status = 200
 
 [[redirects]]
   from = "/*"
